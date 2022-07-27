@@ -1,10 +1,14 @@
+import {useContext} from "react";
 import {Link, NavLink, useNavigate} from "react-router-dom";
+import AuthContext from "../../auth/context/AuthContext";
 const Navbar = () => {
 	/** Para simular que cambiamos de pantalla utilizaremos
 	 * el custom hooks useNavigate
 	
 	*/
 	const navigate = useNavigate();
+	const {user, logout} = useContext(AuthContext);
+	console.log({user});
 
 	const onLogout = () => {
 		console.log("Log out");
@@ -14,6 +18,7 @@ const Navbar = () => {
 		// página que ya e visitado previamente
 		//así no me permitiría volver al login si no
 		//estoy logueado
+		logout();
 		navigate("login", {replace: true});
 	};
 
@@ -52,7 +57,9 @@ const Navbar = () => {
 						Logout
 					</NavLink> */}
 
-					<span className="nav-item nav-link text-info">Andeson Navarro</span>
+					<span className="nav-item nav-link text-info">
+						{user?.name ? user.name : "Cargando Usuario..."}
+					</span>
 
 					<button className="nav-item nav-link btn" onClick={onLogout}>
 						Logout
